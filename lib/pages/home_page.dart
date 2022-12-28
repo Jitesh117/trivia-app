@@ -26,7 +26,7 @@ class HomePage extends StatelessWidget {
                       fontSize: 30.0,
                       fontWeight: FontWeight.bold,
                     ),
-                    colors: [
+                    colors: const [
                       Colors.red,
                       Colors.orange,
                       // Colors.pink,
@@ -38,7 +38,7 @@ class HomePage extends StatelessWidget {
                 height: 10,
               ),
               Row(
-                children: [
+                children: const [
                   Text(
                     'Choose a category:',
                     style: TextStyle(
@@ -68,14 +68,14 @@ class HomePage extends StatelessWidget {
                       imagePath: 'lib/assets/sports.png',
                     ),
                     GenreTile(
-                      boxColor: Colors.blue,
-                      boxColorshade100: Colors.blue.shade100,
+                      boxColor: Colors.green,
+                      boxColorshade100: Colors.green.shade100,
                       genreName: 'MYTHOLOGY',
                       imagePath: 'lib/assets/mythology.png',
                     ),
                     GenreTile(
-                      boxColor: Colors.green,
-                      boxColorshade100: Colors.green.shade100,
+                      boxColor: Colors.cyan,
+                      boxColorshade100: Colors.cyan.shade100,
                       genreName: 'ART',
                       imagePath: 'lib/assets/art.png',
                     ),
