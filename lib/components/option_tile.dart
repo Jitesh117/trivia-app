@@ -4,8 +4,12 @@ class OptionTile extends StatelessWidget {
   const OptionTile({
     Key? key,
     required this.optionColor,
+    required this.optionValue,
+    required this.backColor,
   }) : super(key: key);
   final Color optionColor;
+  final String optionValue;
+  final Color backColor;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -15,7 +19,7 @@ class OptionTile extends StatelessWidget {
         padding: EdgeInsets.all(16),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: Colors.white,
+          color: backColor,
           // gradient: LinearGradient(
           //   colors: [
           //     Colors.blue.shade100,
@@ -27,7 +31,7 @@ class OptionTile extends StatelessWidget {
         ),
         child: Center(
           child: Text(
-            'Bremen',
+            optionValue,
             style: TextStyle(
               color: optionColor,
               fontSize: 20,

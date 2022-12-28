@@ -8,11 +8,13 @@ class GenreTile extends StatelessWidget {
     required this.boxColorshade100,
     required this.genreName,
     required this.imagePath,
+    required this.category,
   }) : super(key: key);
   final Color boxColor;
   final Color boxColorshade100;
   final String genreName;
   final String imagePath;
+  final String category;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -24,6 +26,7 @@ class GenreTile extends StatelessWidget {
                     gradColor: boxColor,
                     gradColorshade100: boxColorshade100,
                     imagePath: imagePath,
+                    category: category,
                   )),
         );
       },
