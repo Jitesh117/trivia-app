@@ -1,23 +1,22 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:html/parser.dart';
 import 'package:trivia_app/components/option_tile.dart';
 import 'package:http/http.dart' as http;
 import 'package:trivia_app/components/data.dart';
 import 'package:html_unescape/html_unescape.dart';
 
 class TriviaPage extends StatefulWidget {
-  const TriviaPage({
+  TriviaPage({
     Key? key,
     required this.gradColor,
     required this.gradColorshade100,
     required this.imagePath,
     required this.category,
   }) : super(key: key);
-  final Color gradColor;
-  final Color gradColorshade100;
-  final String imagePath;
-  final String category;
+  Color gradColor;
+  Color gradColorshade100;
+  String imagePath;
+  String category;
 
   @override
   State<TriviaPage> createState() => _TriviaPageState();
@@ -45,9 +44,30 @@ class _TriviaPageState extends State<TriviaPage> {
 
   Color firstColor = Colors.white;
   Color secondColor = Colors.white;
+  IconData firstIcon = Icons.question_mark_rounded;
+  IconData secondIcon = Icons.question_mark_rounded;
+  void changeColor() {
+    setState(() {
+      if (answer == 'False') {
+        firstColor = Colors.green;
+        secondColor = Colors.red;
+        firstIcon = Icons.check;
+        secondIcon = Icons.close_rounded;
+      } else {
+        firstColor = Colors.red;
+        secondColor = Colors.green;
+        firstIcon = Icons.close_rounded;
+        secondIcon = Icons.check;
+      }
+    });
+  }
 
   @override
   void initState() {
+    setState(() {
+      firstColor = widget.gradColor;
+      secondColor = widget.gradColor;
+    });
     fetchdata();
     super.initState();
   }
@@ -56,11 +76,18 @@ class _TriviaPageState extends State<TriviaPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.white,
+        child: Icon(
+          Icons.arrow_right_alt,
+          color: widget.gradColor,
+        ),
         onPressed: () {
           setState(() {
             isLoading = true;
-            firstColor = Colors.white;
-            secondColor = Colors.white;
+            firstColor = widget.gradColor;
+            secondColor = widget.gradColor;
+            firstIcon = Icons.question_mark_rounded;
+            secondIcon = Icons.question_mark_rounded;
             fetchdata();
           });
         },
@@ -83,6 +110,7 @@ class _TriviaPageState extends State<TriviaPage> {
         ),
         child: Column(
           children: [
+            // TODO: Streak counter
             // Genre photo
             Center(
               child: Image.asset(
@@ -97,13 +125,20 @@ class _TriviaPageState extends State<TriviaPage> {
             // Question
             Center(
               child: isLoading
-                  ? CircularProgressIndicator()
-                  : Text(
-                      questionData!,
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
+                  ? CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                    )
+                  : Container(
+                      padding: EdgeInsets.only(
+                        left: 8,
+                      ),
+                      child: Text(
+                        questionData!,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
             ),
             const SizedBox(
@@ -113,39 +148,27 @@ class _TriviaPageState extends State<TriviaPage> {
             // option one
             GestureDetector(
               onTap: () {
-                setState(() {
-                  if (answer == 'False') {
-                    firstColor = Colors.green;
-                    secondColor = Colors.red.shade100;
-                  } else {
-                    firstColor = Colors.red.shade100;
-                    secondColor = Colors.green;
-                  }
-                });
+                changeColor();
               },
               child: OptionTile(
                 optionColor: widget.gradColor,
                 optionValue: 'True',
-                backColor: firstColor,
+                backColor: Colors.white,
+                answerColor: firstColor,
+                optionIcon: firstIcon,
               ),
             ),
             // option two
             GestureDetector(
               onTap: () {
-                setState(() {
-                  if (answer == 'True') {
-                    firstColor = Colors.green;
-                    secondColor = Colors.red.shade100;
-                  } else if (answer == "False") {
-                    firstColor = Colors.red.shade100;
-                    secondColor = Colors.green;
-                  }
-                });
+                changeColor();
               },
               child: OptionTile(
                 optionColor: widget.gradColor,
                 optionValue: 'False',
-                backColor: secondColor,
+                backColor: Colors.white,
+                answerColor: secondColor,
+                optionIcon: secondIcon,
               ),
             ),
           ],
